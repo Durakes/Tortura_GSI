@@ -1,10 +1,18 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace TicketSystem.Models
 {
-    public class Problema
+    public class Problem
     {
-        public int ProblemaID { get; set; }
+        [Key]
+        public int ProblemID { get; set; }
         public string Description { get; set; }
+        [ForeignKey("Priority")]
         public int PriorityID { get; set; }
-        public int GameID { get; set; }
+        public virtual Priority Priority { get; set; }
+        [ForeignKey("CasinoGame")]
+        public int CasinoGameID { get; set; }
+        public virtual CasinoGame CasinoGame { get; set; }
     }
 }
