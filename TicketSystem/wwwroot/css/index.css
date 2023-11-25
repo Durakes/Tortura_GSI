@@ -1,0 +1,57 @@
+.main-box-apa {
+    width: 950px;
+    height: 696px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    margin-top: 90px;
+    margin-left: 175px;
+    box-sizing: border-box;
+}
+
+.input-apa {
+    width: 480px;
+    height: 68px;
+    flex-shrink: 0;
+    margin-top: 77px;
+    margin-left: 235px;
+    margin-right: 235px;
+    border-color: #E4DFDF;
+    box-sizing: border-box;
+    text-align: center;
+    box-shadow: none;
+    border-radius: 12px;
+    border: 1px solid #E4DFDF;
+    background: #FFF;
+}
+
+.input-apa::placeholder {
+    color: #747688;
+    align-items: center;
+    font-size: 17px;
+}
+
+.button-login-apa {
+    width: 311px;
+    height: 68px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 8px;
+    background-color: #5669FF;
+    color: #fff;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    margin-top: 80px;
+    margin-left: 325px;
+    margin-right: 245px;
+    font-size: 25px;
+}
+
+.button-login-apa:hover{
+    background-color: #394ff6;
+}
+
+.mi-boton:active {
+    background-color: #1b34f4; /* Color aún más oscuro al hacer clic */
+}

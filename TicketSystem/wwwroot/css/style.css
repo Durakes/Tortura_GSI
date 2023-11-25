@@ -1,0 +1,331 @@
+﻿.frame {
+  position: relative;
+  width: 950px;
+  height: 696px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.frame .textbox {
+  position: absolute;
+  width: 480px;
+  height: 68px;
+  top: 77px;
+  left: 235px;
+  border-radius: 8px;
+}
+
+.frame .overlap-group {
+  position: relative;
+  height: 68px;
+  border-radius: 12px;
+}
+
+.frame .group {
+  position: absolute;
+  width: 480px;
+  height: 68px;
+  top: 0;
+  left: 0;
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid;
+  border-color: #e4dede;
+}
+
+.frame .value-wrapper {
+  position: relative;
+  width: 364px;
+  height: 16px;
+  top: 25px;
+  left: 60px;
+}
+
+.frame .value {
+  position: absolute;
+  width: 362px;
+  height: 16px;
+  top: 0;
+  left: 0;
+  font-family: "Roboto-Regular", Helvetica;
+  font-weight: 400;
+  color: var(--color-typography-sub-color);
+  font-size: 24px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: 23px;
+  white-space: nowrap;
+}
+
+.frame .message {
+  position: absolute;
+  width: 33px;
+  height: 30px;
+  top: 20px;
+  left: 26px;
+}
+
+.frame .overlap-wrapper {
+  position: absolute;
+  width: 480px;
+  height: 68px;
+  top: 186px;
+  left: 235px;
+  border-radius: 8px;
+}
+
+.frame .lock {
+  position: absolute;
+  width: 27px;
+  height: 27px;
+  top: 20px;
+  left: 28px;
+}
+
+.frame .hidden {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  top: 18px;
+  left: 427px;
+}
+
+.frame .div {
+  position: relative;
+  width: 24px;
+  height: 20px;
+  top: 7px;
+  left: 4px;
+}
+
+.frame .combined-shape {
+  position: absolute;
+  width: 13px;
+  height: 11px;
+  top: 6px;
+  left: 11px;
+}
+
+.frame .img {
+  position: absolute;
+  width: 15px;
+  height: 13px;
+  top: 1px;
+  left: 0;
+}
+
+.frame .rectangle {
+  position: absolute;
+  width: 25px;
+  height: 3px;
+  top: 9px;
+  left: 0;
+  background-color: #7f7979;
+  transform: rotate(-45deg);
+  opacity: 0.3;
+}
+
+.frame .primary-button {
+  position: absolute;
+  width: 311px;
+  height: 68px;
+  top: 295px;
+  left: 320px;
+  border-radius: 8px;
+  all: unset;
+  box-sizing: border-box;
+}
+
+.frame .overlap {
+  position: relative;
+  width: 381px;
+  height: 138px;
+  top: -25px;
+  left: -35px;
+  background-image: url(./img/rectangle.svg);
+  background-size: 100% 100%;
+}
+
+.frame .button-text {
+  position: absolute;
+  width: 257px;
+  height: 23px;
+  top: 47px;
+  left: 47px;
+  font-family: "Roboto-Medium", Helvetica;
+  font-weight: 500;
+  color: #ffffff;
+  font-size: 20px;
+  text-align: center;
+  letter-spacing: 1px;
+  line-height: normal;
+  white-space: nowrap;
+  all: unset;
+  box-sizing: border-box;
+}
+
+.frame .arrow-icon-wrapper {
+  position: absolute;
+  width: 35px;
+  height: 34px;
+  top: 41px;
+  left: 282px;
+}
+
+.frame .arrow-icon {
+  position: relative;
+  height: 34px;
+  background-color: #3d55f0;
+  border-radius: 17.49px/17.25px;
+}
+
+.frame .shape {
+  position: absolute;
+  width: 15px;
+  height: 14px;
+  top: 10px;
+  left: 9px;
+}
+
+.frame .div-2 {
+  position: absolute;
+  width: 480px;
+  height: 213px;
+  top: 404px;
+  left: 226px;
+}
+
+.frame .don-t-have-an {
+  position: absolute;
+  width: 419px;
+  height: 25px;
+  top: 187px;
+  left: 30px;
+  font-family: "Roboto-Bold", Helvetica;
+  font-weight: 700;
+  color: transparent;
+  font-size: 15px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: 25px;
+}
+
+.frame .text-wrapper {
+  color: #110c26;
+}
+
+.frame .span {
+  color: #5668ff;
+}
+
+.frame .text-wrapper-2 {
+  position: absolute;
+  width: 227px;
+  height: 34px;
+  top: -1px;
+  left: 126px;
+  font-family: "Roboto-Medium", Helvetica;
+  font-weight: 500;
+  color: #9d9898;
+  font-size: 16px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: 34px;
+}
+
+.frame .overlap-group-wrapper {
+  position: absolute;
+  width: 478px;
+  height: 56px;
+  top: 39px;
+  left: 1px;
+}
+
+.frame .overlap-group-2 {
+  position: relative;
+  width: 480px;
+  height: 58px;
+  top: -1px;
+  left: -1px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: var(--white-button-shadow);
+}
+
+.frame .text-wrapper-3 {
+  width: 478px;
+  position: absolute;
+  height: 25px;
+  top: 17px;
+  left: 1px;
+  font-family: "Roboto-Bold", Helvetica;
+  font-weight: 700;
+  color: var(--color-typography-title);
+  font-size: 16px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: 25px;
+  white-space: nowrap;
+}
+
+.frame .google-logo {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  top: 16px;
+  left: 47px;
+}
+
+.frame .div-wrapper {
+  position: absolute;
+  width: 480px;
+  height: 56px;
+  top: 112px;
+  left: 0;
+}
+
+.frame .overlap-2 {
+  position: relative;
+  width: 482px;
+  height: 58px;
+  top: -1px;
+  left: -1px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: var(--white-button-shadow);
+}
+
+.frame .text-wrapper-4 {
+  width: 480px;
+  position: absolute;
+  height: 25px;
+  top: 17px;
+  left: 1px;
+  font-family: "Roboto-Bold", Helvetica;
+  font-weight: 700;
+  color: var(--color-typography-title);
+  font-size: 16px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: 25px;
+  white-space: nowrap;
+}
+
+.frame .facebook-logo {
+  position: absolute;
+  width: 31px;
+  height: 31px;
+  top: 14px;
+  left: 46px;
+  background-color: #1977f3;
+  border-radius: 85.43px;
+}
+
+.frame .intersect {
+  position: absolute;
+  width: 14px;
+  height: 25px;
+  top: 6px;
+  left: 9px;
+}
