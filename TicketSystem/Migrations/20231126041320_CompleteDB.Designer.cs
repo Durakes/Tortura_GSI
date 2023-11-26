@@ -11,8 +11,8 @@ using TicketSystem.Data;
 namespace TicketSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231125170033_CreationDB")]
-    partial class CreationDB
+    [Migration("20231126041320_CompleteDB")]
+    partial class CompleteDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,6 +28,12 @@ namespace TicketSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("EmployeeID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("longtext");
 
@@ -35,6 +41,8 @@ namespace TicketSystem.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("AnswerID");
+
+                    b.HasIndex("EmployeeID");
 
                     b.HasIndex("TicketID");
 
@@ -215,11 +223,19 @@ namespace TicketSystem.Migrations
 
             modelBuilder.Entity("TicketSystem.Models.Answer", b =>
                 {
+                    b.HasOne("TicketSystem.Models.Employee", "Employee")
+                        .WithMany("Answers")
+                        .HasForeignKey("EmployeeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TicketSystem.Models.Ticket", "Ticket")
                         .WithMany("Answers")
                         .HasForeignKey("TicketID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Employee");
 
                     b.Navigation("Ticket");
                 });
@@ -312,6 +328,8 @@ namespace TicketSystem.Migrations
 
             modelBuilder.Entity("TicketSystem.Models.Employee", b =>
                 {
+                    b.Navigation("Answers");
+
                     b.Navigation("EngineerTickets");
 
                     b.Navigation("SupportTechTickets");

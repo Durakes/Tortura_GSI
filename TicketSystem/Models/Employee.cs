@@ -19,5 +19,6 @@ namespace TicketSystem.Models
         // Navigation property for Tickets where the employee is a support tech
         [InverseProperty("SupportTech")]
         public ICollection<Ticket> SupportTechTickets { get; set; }
+        public ICollection<Answer> Answers { get; set; }
     }
 }

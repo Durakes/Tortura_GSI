@@ -25,6 +25,12 @@ namespace TicketSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("EmployeeID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("longtext");
 
@@ -32,6 +38,8 @@ namespace TicketSystem.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("AnswerID");
+
+                    b.HasIndex("EmployeeID");
 
                     b.HasIndex("TicketID");
 
@@ -212,11 +220,19 @@ namespace TicketSystem.Migrations
 
             modelBuilder.Entity("TicketSystem.Models.Answer", b =>
                 {
+                    b.HasOne("TicketSystem.Models.Employee", "Employee")
+                        .WithMany("Answers")
+                        .HasForeignKey("EmployeeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TicketSystem.Models.Ticket", "Ticket")
                         .WithMany("Answers")
                         .HasForeignKey("TicketID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Employee");
 
                     b.Navigation("Ticket");
                 });
@@ -309,6 +325,8 @@ namespace TicketSystem.Migrations
 
             modelBuilder.Entity("TicketSystem.Models.Employee", b =>
                 {
+                    b.Navigation("Answers");
+
                     b.Navigation("EngineerTickets");
 
                     b.Navigation("SupportTechTickets");

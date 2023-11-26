@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TicketSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class CreationDB : Migration
+    public partial class CompleteDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -215,11 +215,19 @@ namespace TicketSystem.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    TicketID = table.Column<int>(type: "int", nullable: false)
+                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    TicketID = table.Column<int>(type: "int", nullable: false),
+                    EmployeeID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Answers", x => x.AnswerID);
+                    table.ForeignKey(
+                        name: "FK_Answers_Employees_EmployeeID",
+                        column: x => x.EmployeeID,
+                        principalTable: "Employees",
+                        principalColumn: "EmployeeID",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Answers_Tickets_TicketID",
                         column: x => x.TicketID,
@@ -228,6 +236,11 @@ namespace TicketSystem.Migrations
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Answers_EmployeeID",
+                table: "Answers",
+                column: "EmployeeID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_TicketID",
