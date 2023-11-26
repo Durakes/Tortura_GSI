@@ -7,6 +7,7 @@ namespace TicketSystem.Models
         [Key]
         public int StatusID { get; set; }
         public string Name { get; set; }
+        public string Color { get; set; }
         public virtual ICollection<Ticket> Tickets { get; set; }
     }
 }

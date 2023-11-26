@@ -5,11 +5,11 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="offset-md-1" style="margin-top: 5%;">
+        <div class="" style="margin-top: 5%;">
             <h2 class="mt-4 mb-4">Nuevo Ticket</h2>
             <div class="mt-2 bg-white p-4">
                 <h3>Crear nuevo ticket</h3>
-                <h6 class="mt-1 mb-4 text-secondary">Escribe y registra nuevas solicitudes.</h6>
+                <h6 class="mt-1 mb-4 text-secondary">Registra los datos solicitados.</h6>
                 <form asp-action="Create" method="post" class="row">
                     <div class="col-md-4 mb-3">
                         <div class="form-group">
@@ -28,8 +28,16 @@
                     <div class="col-md-4 mb-3">
                         <div class="form-group">
                             <label asp-for="SelectedPriorityID" class="control-label">Prioridad</label>
-                            <select asp-for="SelectedPriorityID" asp-items="Model.Priorities"
-                                class="form-select"></select>
+                            <select asp-for="SelectedPriorityID" class="form-select">
+                                <option value="" disabled selected style="display:none;">Seleccione una prioridad
+                                </option>
+                                @foreach (var priority in Model.Priorities)
+                                {
+                                    <option value="@priority.PriorityID">
+                                        <i class="fas fa-circle" style="color: @priority.Color;"></i> @priority.Name
+                                    </option>
+                                }
+                            </select>
                             <span asp-validation-for="SelectedPriorityID" class="text-danger"></span>
                         </div>
                     </div>
@@ -44,8 +52,7 @@
                     <div class="col-md-4 mb-3">
                         <div class="form-group">
                             <label asp-for="SelectedCasinoGameID" class="control-label">Juego</label>
-                            <select asp-for="SelectedCasinoGameID" asp-items="Model.Games"
-                                class="form-select"></select>
+                            <select asp-for="SelectedCasinoGameID" asp-items="Model.Games" class="form-select"></select>
                             <span asp-validation-for="SelectedCasinoGameID" class="text-danger"></span>
                         </div>
                     </div>
@@ -65,7 +72,8 @@
                         </div>
                     </div>
                     <div class="col-md-12 mb-3 d-md-flex justify-content-md-end">
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="submit" class="mx-2 btn btn-primary"  style="background-color: #7F56D8; border-color: #7F56D8;">Guardar</button>
+                        <a asp-action="Index" class="mx-2 btn btn-secondary">Cancelar</a>
                     </div>
                 </form>
             </div>

@@ -28,6 +28,8 @@ namespace TicketSystem.Controllers
             var tickets = await _context.Tickets
                             .Where(e => e.SupportTechID == objUser.EmployeeID)
                             .Include(e => e.Engineer)
+                            .Include(e => e.Status)
+                            .Include(e => e.Priority)
                             .AsNoTracking()
                             .OrderBy(e => e.TicketID)
                             .ToListAsync();
@@ -46,7 +48,7 @@ namespace TicketSystem.Controllers
             {
                 Games = _context.CasinoGames.Select(g => new SelectListItem { Value = g.CasinoGameID.ToString(), Text = g.Name }),
                 RequestTypes = _context.RequestTypes.Select(r => new SelectListItem { Value = r.RequestTypeID.ToString(), Text = r.Name }),
-                Priorities = _context.Priorities.Select(p => new SelectListItem { Value = p.PriorityID.ToString(), Text = p.Name }),
+                Priorities = _context.Priorities.ToList(),
                 Engineers = _context.Employees.Where(e => e.JobPositionID == 2).Select(e => new SelectListItem { Value = e.EmployeeID.ToString(), Text = e.Name }),
             };
 
@@ -83,7 +85,7 @@ namespace TicketSystem.Controllers
 
                 return RedirectToAction("Index");
             }
-            viewModel.Priorities = _context.Priorities.Select(p => new SelectListItem { Value = p.PriorityID.ToString(), Text = p.Name });
+            viewModel.Priorities = _context.Priorities.ToList();
             viewModel.RequestTypes = _context.RequestTypes.Select(r => new SelectListItem { Value = r.RequestTypeID.ToString(), Text = r.Name });
 
             return View(viewModel);
@@ -187,6 +189,7 @@ namespace TicketSystem.Controllers
                 Title = ticket.Title,
                 Description = ticket.Description,
                 Date = ticket.Timestamp,
+                StatusTicket = ticket.Status,
                 SelectedStatusID = ticket.StatusID,
                 Statuses = _context.Statuses.Select(p => new SelectListItem { Value = p.StatusID.ToString(), Text = p.Name }),
                 SelectedPriorityID = ticket.PriorityID,

@@ -5,58 +5,85 @@
 }
 
 <div class="container">
-    <h2 class="mt-4 mb-4">Detalles del Ticket</h2>
-
-    <dl class="row">
-        <dt class="col-sm-3">ID del Ticket:</dt>
-        <dd class="col-sm-9">@Model.TicketID</dd>
-
-        <dt class="col-sm-3">Título:</dt>
-        <dd class="col-sm-9">@Model.Title</dd>
-
-        <dt class="col-sm-3">Descripción:</dt>
-        <dd class="col-sm-9">@Model.Description</dd>
-
-        <dt class="col-sm-3">Fecha:</dt>
-        <dd class="col-sm-9">@Model.Date</dd>
-
-        <dt class="col-sm-3">Estado:</dt>
-        <label asp-for="SelectedStatusID" class="control-label"></label>
-        <select asp-for="SelectedStatusID" asp-items="Model.Statuses" class="form-control"></select>
-        <span asp-validation-for="SelectedStatusID" class="text-danger"></span>
-
-        <dt class="col-sm-3">Prioridad:</dt>
-        <label asp-for="SelectedPriorityID" class="control-label"></label>
-        <select asp-for="SelectedPriorityID" asp-items="Model.Priorities" class="form-control"></select>
-        <span asp-validation-for="SelectedPriorityID" class="text-danger"></span>
-
-        <dt class="col-sm-3">Asignado a:</dt>
-        <label asp-for="SelectedEngineerID" class="control-label"></label>
-        <select asp-for="SelectedEngineerID" asp-items="Model.Engineers" class="form-control"></select>
-        <span asp-validation-for="SelectedEngineerID" class="text-danger"></span>
-
-    </dl>
-
-    <div class="mt-4">
-        <h3>Respuestas del Ticket</h3>
-
-        <!-- Lista de Respuestas -->
-        @foreach (var answer in Model.Answers)
-        {
-            <div class="card mb-3">
+    <h2 class="mt-4 mb-4">Ticket</h2>
+    <div class="mt-2 my-3 bg-white p-4">
+        <p class="col-sm-12 text-muted text-end">Creado el: @Model.Date</p>
+        <div class="row align-items-center">
+            <div class="col-md-9">
                 <div class="card-body">
-                    <p class="card-text"><strong>Texto:</strong> @answer.Name</p>
-                    <p class="card-text"><strong>Fecha:</strong> @answer.CreationTime</p>
-                    <p class="card-text"><strong>Persona:</strong> @answer.Employee.Name</p>
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                <i class="fa-solid fa-circle me-2" style="color: @Model.StatusTicket.Color;"></i>Ticket
+                                #
+                                @Model.TicketID
+                            </h6>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <a class="btn me-1" aria-label="Edit" asp-action="Edit" asp-route-id="@Model.TicketID">
+                                <i class="fa-regular fa-pen-to-square" style="color: #7F56D8;"></i>
+                            </a>
+                            <button type="button" class="btn" data-bs-toggle="modal"
+                                data-bs-target="#deleteModal-@Model.TicketID">
+                                <i class="fa-solid fa-trash-can" style="color: #7F56D8;"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <h5 class="card-title font-weight-bold mr-3">@Model.Title</h5>
+                    <p class="card-text text-muted">@Model.Description</p>
                 </div>
             </div>
-        }
-
-        <!-- Botón para agregar respuesta -->
-        <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal"
-            data-bs-target="#agregarRespuestaModal">
-            Agregar Respuesta
-        </button>
+            <div class="col-md-3">
+                <div class="">
+                    <div class="col-md-12 mb-3">
+                        <div class="form-group">
+                            <label asp-for="SelectedStatusID" class="control-label mb-1 fw-bold">Estado</label>
+                            <select asp-for="SelectedStatusID" asp-items="Model.Statuses"
+                                class="form-select text-muted"></select>
+                            <span asp-validation-for="SelectedStatusID" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <div class="form-group">
+                            <label asp-for="SelectedPriorityID" class="control-label mb-1 fw-bold">Prioridad</label>
+                            <select asp-for="SelectedPriorityID" asp-items="Model.Priorities"
+                                class="form-select text-muted">
+                            </select>
+                            <span asp-validation-for="SelectedPriorityID" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <div class="form-group">
+                            <label asp-for="SelectedEngineerID" class="control-label mb-1 fw-bold">Asignado a</label>
+                            <select asp-for="SelectedEngineerID" asp-items="Model.Engineers"
+                                class="form-select text-muted"></select>
+                            <span asp-validation-for="SelectedEngineerID" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-4 p-4 bg-light">
+            <div class="d-flex mb-2 justify-content-between align-items-center">
+                <h3>Respuestas</h3>
+                <button type="button" class="btn btn-primary"
+                    style="background-color: #7F56D8; border-color: #7F56D8;" data-bs-toggle="modal"
+                    data-bs-target="#agregarRespuestaModal">
+                    Agregar Respuesta
+                </button>
+            </div>
+            @foreach (var answer in Model.Answers)
+            {
+                <div class="card mb-3 bg-white">
+                    <div class="card-body">
+                        <p class="card-text text-muted text-end small">@answer.CreationTime</p>
+                        <p class="card-text">@answer.Name</p>
+                        <hr class="my-1">
+                        <p class="card-text text-muted small">@answer.Employee.Name</p>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 </div>
 
