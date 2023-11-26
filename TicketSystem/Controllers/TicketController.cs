@@ -176,7 +176,10 @@ namespace TicketSystem.Controllers
                 return NotFound();
             }
 
-            var answers = await _context.Answers.Where(e => e.TicketID == ticket.TicketID).ToListAsync();
+            var answers = await _context.Answers
+                                .Include(e => e.Employee)
+                                .AsNoTracking()
+                                .Where(e => e.TicketID == ticket.TicketID).ToListAsync();
 
             var viewModel = new TicketDetailViewModel
             {

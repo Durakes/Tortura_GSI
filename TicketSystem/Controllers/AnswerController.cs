@@ -28,7 +28,9 @@ namespace TicketSystem.Controllers
             var answer = new Answer
             {
                 TicketID = model.TicketID,
-                Name = model.Name
+                Name = model.Name,
+                EmployeeID = objUser.EmployeeID,
+                CreationTime = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.Local)
             };
 
             await _context.Answers.AddAsync(answer);
