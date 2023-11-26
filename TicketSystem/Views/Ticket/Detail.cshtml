@@ -1,0 +1,84 @@
+﻿@model TicketDetailViewModel
+
+@{
+    ViewData["Title"] = "Detalles del Ticket";
+}
+
+<div class="container">
+    <h2 class="mt-4 mb-4">Detalles del Ticket</h2>
+
+    <dl class="row">
+        <dt class="col-sm-3">ID del Ticket:</dt>
+        <dd class="col-sm-9">@Model.TicketID</dd>
+
+        <dt class="col-sm-3">Título:</dt>
+        <dd class="col-sm-9">@Model.Title</dd>
+
+        <dt class="col-sm-3">Descripción:</dt>
+        <dd class="col-sm-9">@Model.Description</dd>
+
+        <dt class="col-sm-3">Fecha:</dt>
+        <dd class="col-sm-9">@Model.Date</dd>
+
+        <dt class="col-sm-3">Estado:</dt>
+        <label asp-for="SelectedStatusID" class="control-label"></label>
+        <select asp-for="SelectedStatusID" asp-items="Model.Statuses" class="form-control"></select>
+        <span asp-validation-for="SelectedStatusID" class="text-danger"></span>
+
+        <dt class="col-sm-3">Prioridad:</dt>
+        <label asp-for="SelectedPriorityID" class="control-label"></label>
+        <select asp-for="SelectedPriorityID" asp-items="Model.Priorities" class="form-control"></select>
+        <span asp-validation-for="SelectedPriorityID" class="text-danger"></span>
+
+        <dt class="col-sm-3">Asignado a:</dt>
+        <label asp-for="SelectedEngineerID" class="control-label"></label>
+        <select asp-for="SelectedEngineerID" asp-items="Model.Engineers" class="form-control"></select>
+        <span asp-validation-for="SelectedEngineerID" class="text-danger"></span>
+
+    </dl>
+
+    <div class="mt-4">
+        <h3>Respuestas del Ticket</h3>
+
+        <!-- Lista de Respuestas -->
+        @foreach (var answer in Model.Answers)
+        {
+            <div class="card mb-3">
+                <div class="card-body">
+                    <p class="card-text"><strong>Texto:</strong> @answer.Name</p>
+                </div>
+            </div>
+        }
+
+        <!-- Botón para agregar respuesta -->
+        <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal"
+            data-bs-target="#agregarRespuestaModal">
+            Agregar Respuesta
+        </button>
+    </div>
+</div>
+
+<div class="modal fade" id="agregarRespuestaModal" tabindex="-1" role="dialog"
+    aria-labelledby="agregarRespuestaModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="agregarRespuestaModalLabel">Agregar Respuesta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("Create", "Answer", FormMethod.Post))
+                {
+                    @Html.HiddenFor(model => model.TicketID) <!-- Agrega el ID del modelo original como un campo oculto -->
+
+                    <div class="mb-3">
+                        <label for="Name" class="form-label">Nombre:</label>
+                        <textarea class="form-control" id="Name" name="Name" rows="3"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>

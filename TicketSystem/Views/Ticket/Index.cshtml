@@ -1,0 +1,59 @@
+﻿@model TicketSystem.Models.TicketDashboard
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+}
+<p>
+    Sesion Iniciada por @Model.Name
+    <a class="" aria-label="Create" asp-action="Create">
+        Crear Ticket
+    </a>
+</p>
+
+<div class="container">
+    <h2 class="mt-4 mb-4">Lista de Tickets</h2>
+
+    @foreach (var ticket in Model.Tickets)
+    {
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">@ticket.Title</h5>
+                <p class="card-text">@ticket.Description</p>
+                <p class="card-text"><strong>Fecha:</strong> @ticket.Timestamp.ToString("dd/MM/yyyy")</p>
+                <p class="card-text"><strong>Asignado a:</strong> @($"{ticket.Engineer.Name} ({ticket.Engineer.Email})")</p>
+
+                <div class="btn-group" role="group" aria-label="Acciones">
+                    <a class="btn btn-info" aria-label="Detail" asp-action="Detail" asp-route-id="@ticket.TicketID">
+                        Ver Detalles
+                    </a>
+                    <a class="btn btn-warning" aria-label="Edit" asp-action="Edit" asp-route-id="@ticket.TicketID">
+                        Editar
+                    </a>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#deleteModal-@ticket.TicketID"/>
+                    Eliminar
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteModal-@ticket.TicketID" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Confirmar eliminación</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ¿Estás seguro de que deseas eliminar este ticket?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@ticket.TicketID">Eliminar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
