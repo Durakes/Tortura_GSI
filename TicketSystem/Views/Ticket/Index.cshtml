@@ -1,112 +1,137 @@
 ﻿@model TicketSystem.Models.TicketDashboard
 @{
     ViewData["Title"] = "Iniciar Sesión";
+    var pageSize = 3;
+    var totalPages = (int)Math.Ceiling((double)Model.Tickets.Count() / pageSize);
 }
 <div class="container">
     <h2 class="mt-4 mb-4">Tickets</h2>
     <div class="mt-2 bg-white p-4">
         <div class="d-flex justify-content-end mb-3">
-            <a class="btn btn-primary"  style="background-color: #7F56D8; border-color: #7F56D8;" aria-label="Create" asp-action="Create">
+            <a class="btn btn-primary" style="background-color: #7F56D8; border-color: #7F56D8;" aria-label="Create"
+                asp-action="Create">
                 Crear Ticket
             </a>
             <!-- Botones de filtro -->
         </div>
-        <button class="btn btn-outline-secondary ms-2" onclick="filterTickets('todos')">Todos</button>
-        <button class="btn btn-outline-secondary ms-2" onclick="filterTickets('abiertos')">Abiertos</button>
-        <button class="btn btn-outline-secondary ms-2" onclick="filterTickets('espera')">En Espera</button>
-        <button class="btn btn-outline-secondary ms-2" onclick="filterTickets('resueltos')">Resueltos</button>
+        <div class="d-flex flex-row">
+            <form asp-action="Index" method="post">
+                <input type="hidden" name="filtroEstado" value="0" />
+                <button type="submit" class="btn btn-outline-secondary ms-2">Todos</button>
+            </form>
+            <form asp-action="Index" method="post">
+                <input type="hidden" name="filtroEstado" value="1" />
+                <button type="submit" class="btn btn-outline-secondary ms-2">Abiertos</button>
+            </form>
+            <form asp-action="Index" method="post">
+                <input type="hidden" name="filtroEstado" value="2" />
+                <button type="submit" class="btn btn-outline-secondary ms-2">En Espera</button>
+            </form>
+            <form asp-action="Index" method="post">
+                <input type="hidden" name="filtroEstado" value="3" />
+                <button type="submit" class="btn btn-outline-secondary ms-2">Resueltos</button>
+            </form>
+        </div>
         <div class="my-2">
-            @foreach (var ticket in Model.Tickets)
-            {
-                <div class="card mb-3 border border-2 border-light" data-estado="@ticket.StatusID">
-                    <div class="card-body">
-                        <h6 class="card-subtitle mb-2 text-muted">
-                            <i class="fa-solid fa-circle me-2" style="color: @ticket.Status.Color;"></i>Ticket #
-                            @ticket.TicketID
-                        </h6>
-                        <h5 class="card-title font-weight-bold mr-3">@ticket.Title</h5>
-                        <p class="card-text text-muted">@ticket.Description</p>
+            <div class="page" id="page-container">
+                @foreach (var ticket in Model.Tickets)
+                {
+                    <div class="card mb-3 border border-2 border-light" data-estado="@ticket.StatusID">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                <i class="fa-solid fa-circle me-2" style="color: @ticket.Status.Color;"></i>Ticket #
+                                @ticket.TicketID
+                            </h6>
+                            <h5 class="card-title font-weight-bold mr-3">@ticket.Title</h5>
+                            <p class="card-text text-muted">@ticket.Description</p>
 
-                        <hr class="mt-4 mb-2">
+                            <hr class="mt-4 mb-2">
 
-                        <div class="row align-items-center">
-                            <div class="col-md-6">
-                                <p class="card-text text-muted"><strong>Asignado a:</strong> @($"{ticket.Engineer.Name}")
-                                </p>
-                            </div>
-                            <div class="col-md-6 text-end">
-                                <a class="btn me-1" aria-label="Detail" asp-action="Detail" asp-route-id="@ticket.TicketID">
-                                    <i class="fa-solid fa-arrow-up-right-from-square" style="color: #7F56D8;"></i>
-                                </a>
-                                <a class="btn me-1" aria-label="Edit" asp-action="Edit" asp-route-id="@ticket.TicketID">
-                                    <i class="fa-regular fa-pen-to-square" style="color: #7F56D8;"></i>
-                                </a>
-                                <button type="button" class="btn" data-bs-toggle="modal"
-                                    data-bs-target="#deleteModal-@ticket.TicketID">
-                                    <i class="fa-solid fa-trash-can" style="color: #7F56D8;"></i>
-                                </button>
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <p class="card-text text-muted"><strong>Asignado a:</strong>
+                                        @($"{ticket.Engineer.Name}")
+                                    </p>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <a class="btn me-1" aria-label="Detail" asp-action="Detail"
+                                        asp-route-id="@ticket.TicketID">
+                                        <i class="fa-solid fa-arrow-up-right-from-square" style="color: #7F56D8;"></i>
+                                    </a>
+                                    <a class="btn me-1" aria-label="Edit" asp-action="Edit" asp-route-id="@ticket.TicketID">
+                                        <i class="fa-regular fa-pen-to-square" style="color: #7F56D8;"></i>
+                                    </a>
+                                    <button type="button" class="btn" data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal-@ticket.TicketID">
+                                        <i class="fa-solid fa-trash-can" style="color: #7F56D8;"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="modal fade" id="deleteModal-@ticket.TicketID" tabindex="-1" role="dialog"
-                    aria-labelledby="deleteModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="deleteModalLabel">Confirmar eliminación</h5>
-                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                ¿Estás seguro de que deseas eliminar este ticket?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@ticket.TicketID">Eliminar</a>
+                    <div class="modal fade" id="deleteModal-@ticket.TicketID" tabindex="-1" role="dialog"
+                        aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteModalLabel">Confirmar eliminación</h5>
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    ¿Estás seguro de que deseas eliminar este ticket?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancelar</button>
+                                    <a class="btn btn-danger" asp-action="Delete"
+                                        asp-route-id="@ticket.TicketID">Eliminar</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-end">
+                    @for (int i = 1; i <= totalPages; i++)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="#" onclick="showPage(@i)">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
         </div>
     </div>
 </div>
+<style>
+    .pagination .page-item.active .page-link {
+        background-color: #7F56D8;
+        border-color: #7F56D8;
+        color: white;
+    }
+
+    .pagination .page-link {
+        color: #7F56D8;
+    }
+</style>
 
 @section scripts {
     <script>
-        // Función para filtrar los tickets según el estado
-        function filterTickets(estado) {
-            // Ocultar todos los tickets
-            $(".card").hide();
+        function showPage(pageNumber) {
+            $('.card').hide();
+            var startIndex = (pageNumber - 1) * @pageSize;
+            var endIndex = startIndex + @pageSize;
 
-            // Mostrar solo los tickets con el estado seleccionado
-            $(".card").each(function () {
-                var ticket = $(this);
-                if (estado === 'todos' || ticket.data('estado') == getEstadoId(estado)) {
-                    ticket.show();
-                }
-            });
-
-            // Indicar el estado seleccionado
-            $("button").removeClass("btn-primary");
-            $("button:contains('" + estado.charAt(0).toUpperCase() + estado.slice(1) + "')").addClass("btn-primary");
+            $('.card').slice(startIndex, endIndex).show();
         }
 
-        // Función para obtener el ID del estado correspondiente al nombre
-        function getEstadoId(estado) {
-            switch (estado) {
-                case 'abiertos':
-                    return 1; // Reemplaza con el ID del estado abierto
-                case 'espera':
-                    return 2; // Reemplaza con el ID del estado en espera
-                case 'resueltos':
-                    return 3; // Reemplaza con el ID del estado resuelto
-                default:
-                    return 0; // Reemplaza con el ID por defecto
-            }
-        }
+        // Mostrar la primera página al cargar
+        $(document).ready(function () {
+            showPage(1);
+        });
     </script>
 }

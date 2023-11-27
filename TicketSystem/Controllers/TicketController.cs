@@ -15,6 +15,7 @@ namespace TicketSystem.Controllers
         {
             _context = context;
         }
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var user = HttpContext.Session.GetString("SesionSoporte");
@@ -31,7 +32,7 @@ namespace TicketSystem.Controllers
                             .Include(e => e.Status)
                             .Include(e => e.Priority)
                             .AsNoTracking()
-                            .OrderBy(e => e.TicketID)
+                            .OrderByDescending(e => e.TicketID)
                             .ToListAsync();
             var viewModel = new TicketDashboard
             {
@@ -40,6 +41,44 @@ namespace TicketSystem.Controllers
             };
 
             return View(viewModel);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Index(int filtroEstado)
+        {
+            var user = HttpContext.Session.GetString("SesionSoporte");
+
+            if (string.IsNullOrEmpty(user))
+            {
+                return RedirectToAction("NoEncontrado");
+            }
+
+            var objUser = JsonConvert.DeserializeObject<Employee>(user);
+            var tickets = await _context.Tickets
+                            .Where(e => e.SupportTechID == objUser.EmployeeID)
+                            .Include(e => e.Engineer)
+                            .Include(e => e.Status)
+                            .Include(e => e.Priority)
+                            .AsNoTracking()
+                            .OrderByDescending(e => e.TicketID)
+                            .ToListAsync();
+            if (filtroEstado != 0)
+            {
+                var filteredTickets = tickets.Where(e => e.StatusID == filtroEstado).ToList();
+                var viewModel = new TicketDashboard
+                {
+                    Name = objUser.Name,
+                    Tickets = filteredTickets
+                };
+
+                return View(viewModel);
+            }
+            var views = new TicketDashboard
+            {
+                Name = objUser.Name,
+                Tickets = tickets
+            };
+            return View(views);
+
         }
         [HttpGet]
         public IActionResult Create()
@@ -71,7 +110,7 @@ namespace TicketSystem.Controllers
                 {
                     Title = viewModel.Title,
                     Description = viewModel.Description,
-                    Timestamp = viewModel.Date,
+                    Timestamp = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.Local),
                     StatusID = 1,
                     PriorityID = viewModel.SelectedPriorityID,
                     EngineerID = viewModel.SelectedEngineerID,
@@ -141,7 +180,6 @@ namespace TicketSystem.Controllers
 
                 ticket.Title = viewModel.Title;
                 ticket.Description = viewModel.Description;
-                ticket.Timestamp = viewModel.Date;
                 ticket.StatusID = viewModel.SelectedStatusID;
                 ticket.PriorityID = viewModel.SelectedPriorityID;
                 ticket.EngineerID = viewModel.SelectedEngineerID;
@@ -221,6 +259,33 @@ namespace TicketSystem.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public IActionResult UpdateTicket(int ticketId, string selectedValue, string propertyName)
+        {
+            var ticket = _context.Tickets.FirstOrDefault(t => t.TicketID == ticketId);
+            if (ticket != null)
+            {
+                switch (propertyName)
+                {
+                    case "SelectedStatusID":
+                        ticket.StatusID = Convert.ToInt32(selectedValue);
+                        break;
+                    case "SelectedPriorityID":
+                        ticket.PriorityID = Convert.ToInt32(selectedValue);
+                        break;
+                    case "SelectedEngineerID":
+                        ticket.EngineerID = Convert.ToInt32(selectedValue);
+                        break;
+                }
+                _context.Update(ticket);
+                _context.SaveChanges();
+                return Json(new { success = true, message = "Ticket actualizado correctamente." });
+            }
+
+            return Json(new { success = false, message = "Error al actualizar el ticket." });
+        }
+
     }
 
 }

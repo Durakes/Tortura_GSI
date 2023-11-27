@@ -7,7 +7,12 @@
 <div class="container">
     <h2 class="mt-4 mb-4">Ticket</h2>
     <div class="mt-2 my-3 bg-white p-4">
-        <p class="col-sm-12 text-muted text-end">Creado el: @Model.Date</p>
+       <div class="d-flex justify-content-between align-items-center">
+            <a asp-action="Index" class="mx-2 btn">
+                <i class="fa-sharp fa-solid fa-arrow-left" style="color: #949494;"></i>
+            </a>
+            <p class="text-muted text-end mb-0" style="color: #878787;">Creado el: @Model.Date</p>
+        </div>
         <div class="row align-items-center">
             <div class="col-md-9">
                 <div class="card-body">
@@ -39,7 +44,7 @@
                         <div class="form-group">
                             <label asp-for="SelectedStatusID" class="control-label mb-1 fw-bold">Estado</label>
                             <select asp-for="SelectedStatusID" asp-items="Model.Statuses"
-                                class="form-select text-muted"></select>
+                                class="form-select text-muted select-status" data-ticket-id="@Model.TicketID" data-property-name="SelectedStatusID"></select>
                             <span asp-validation-for="SelectedStatusID" class="text-danger"></span>
                         </div>
                     </div>
@@ -47,7 +52,7 @@
                         <div class="form-group">
                             <label asp-for="SelectedPriorityID" class="control-label mb-1 fw-bold">Prioridad</label>
                             <select asp-for="SelectedPriorityID" asp-items="Model.Priorities"
-                                class="form-select text-muted">
+                                class="form-select text-muted select-priority" data-ticket-id="@Model.TicketID" data-property-name="SelectedPriorityID">
                             </select>
                             <span asp-validation-for="SelectedPriorityID" class="text-danger"></span>
                         </div>
@@ -56,7 +61,8 @@
                         <div class="form-group">
                             <label asp-for="SelectedEngineerID" class="control-label mb-1 fw-bold">Asignado a</label>
                             <select asp-for="SelectedEngineerID" asp-items="Model.Engineers"
-                                class="form-select text-muted"></select>
+                                class="form-select text-muted select-engineer"
+                                data-ticket-id="@Model.TicketID" data-property-name="SelectedEngineerID"></select>
                             <span asp-validation-for="SelectedEngineerID" class="text-danger"></span>
                         </div>
                     </div>
@@ -66,9 +72,8 @@
         <div class="mt-4 p-4 bg-light">
             <div class="d-flex mb-2 justify-content-between align-items-center">
                 <h3>Respuestas</h3>
-                <button type="button" class="btn btn-primary"
-                    style="background-color: #7F56D8; border-color: #7F56D8;" data-bs-toggle="modal"
-                    data-bs-target="#agregarRespuestaModal">
+                <button type="button" class="btn btn-primary" style="background-color: #7F56D8; border-color: #7F56D8;"
+                    data-bs-toggle="modal" data-bs-target="#agregarRespuestaModal">
                     Agregar Respuesta
                 </button>
             </div>
@@ -111,3 +116,39 @@
         </div>
     </div>
 </div>
+
+<style>
+    .btn-apa:hover .fa-arrow-left {
+    color: #7F56D8;
+}
+</style>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('.select-status, .select-priority, .select-engineer').change(function () {
+                var ticketId = $(this).data('ticket-id');
+                var selectedValue = $(this).val();
+                var propertyName = $(this).data('property-name');
+
+                updateTicket(ticketId, selectedValue, propertyName);
+            });
+        });
+
+        function updateTicket(ticketId, selectedValue, propertyName) {
+            $.ajax({
+                type: 'POST',
+                url: '/Ticket/UpdateTicket',
+                data: { ticketId: ticketId, selectedValue: selectedValue, propertyName: propertyName },
+                success: function (result) {
+                    // Puedes realizar alguna acción después de la actualización, si es necesario
+                    console.log(result);
+                },
+                error: function () {
+                    // Maneja errores si es necesario
+                    console.error('Error al actualizar el ticket.');
+                }
+            });
+        }
+    </script>
+}

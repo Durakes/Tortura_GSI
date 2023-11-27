@@ -14,21 +14,14 @@
                     <div class="col-md-4 mb-3">
                         <div class="form-group">
                             <label asp-for="Title" class="control-label">Titulo</label>
-                            <input asp-for="Title" class="form-control" />
+                            <input asp-for="Title" class="form-control" required/>
                             <span asp-validation-for="Title" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-4 mb-3">
                         <div class="form-group">
-                            <label asp-for="Date" class="control-label">Fecha</label>
-                            <input asp-for="Date" type="date" class="form-control" />
-                            <span asp-validation-for="Date" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <div class="form-group">
                             <label asp-for="SelectedPriorityID" class="control-label">Prioridad</label>
-                            <select asp-for="SelectedPriorityID" class="form-select">
+                            <select asp-for="SelectedPriorityID" class="form-select" required>
                                 <option value="" disabled selected style="display:none;">Seleccione una prioridad
                                 </option>
                                 @foreach (var priority in Model.Priorities)
@@ -45,14 +38,14 @@
                         <div class="form-group">
                             <label asp-for="SelectedRequestTypeID" class="control-label">Tipo de Solicitud</label>
                             <select asp-for="SelectedRequestTypeID" asp-items="Model.RequestTypes"
-                                class="form-select"></select>
+                                class="form-select" required></select>
                             <span asp-validation-for="SelectedRequestTypeID" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-4 mb-3">
                         <div class="form-group">
                             <label asp-for="SelectedCasinoGameID" class="control-label">Juego</label>
-                            <select asp-for="SelectedCasinoGameID" asp-items="Model.Games" class="form-select"></select>
+                            <select asp-for="SelectedCasinoGameID" asp-items="Model.Games" class="form-select" required></select>
                             <span asp-validation-for="SelectedCasinoGameID" class="text-danger"></span>
                         </div>
                     </div>
@@ -60,14 +53,14 @@
                         <div class="form-group">
                             <label asp-for="SelectedEngineerID" class="control-label">Asignado a</label>
                             <select asp-for="SelectedEngineerID" asp-items="Model.Engineers"
-                                class="form-select"></select>
+                                class="form-select" required></select>
                             <span asp-validation-for="SelectedEngineerID" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-12 mb-3">
                         <div class="form-group">
                             <label asp-for="Description" class="control-label">Descripcion</label>
-                            <textarea asp-for="Description" class="form-control" style="height: 150px;"></textarea>
+                            <textarea asp-for="Description" class="form-control" style="height: 150px;" required></textarea>
                             <span asp-validation-for="Description" class="text-danger"></span>
                         </div>
                     </div>

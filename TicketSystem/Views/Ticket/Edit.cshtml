@@ -13,21 +13,14 @@
                     <div class="col-md-4 mb-3">
                         <div class="form-group">
                             <label asp-for="Title" class="control-label">Titulo</label>
-                            <input asp-for="Title" class="form-control" />
+                            <input asp-for="Title" class="form-control" required/>
                             <span asp-validation-for="Title" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-4 mb-3">
                         <div class="form-group">
-                            <label asp-for="Date" class="control-label">Fecha</label>
-                            <input asp-for="Date" type="date" class="form-control" />
-                            <span asp-validation-for="Date" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <div class="form-group">
                             <label asp-for="SelectedPriorityID" class="control-label">Prioridad</label>
-                            <select asp-for="SelectedPriorityID" asp-items="Model.Priorities" class="form-select">
+                            <select asp-for="SelectedPriorityID" asp-items="Model.Priorities" class="form-select" required>
                             </select>
                             <span asp-validation-for="SelectedPriorityID" class="text-danger"></span>
                         </div>
@@ -36,7 +29,7 @@
                         <div class="form-group">
                             <label asp-for="SelectedStatusID" class="control-label">Estado del Ticket</label>
                             <select asp-for="SelectedStatusID" asp-items="Model.Statuses"
-                                class="form-select"></select>
+                                class="form-select" required></select>
                             <span asp-validation-for="SelectedStatusID" class="text-danger"></span>
                         </div>
                     </div>
@@ -44,14 +37,14 @@
                         <div class="form-group">
                             <label asp-for="SelectedRequestTypeID" class="control-label">Tipo de Solicitud</label>
                             <select asp-for="SelectedRequestTypeID" asp-items="Model.RequestTypes"
-                                class="form-select"></select>
+                                class="form-select" required></select>
                             <span asp-validation-for="SelectedRequestTypeID" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-4 mb-3">
                         <div class="form-group">
                             <label asp-for="SelectedCasinoGameID" class="control-label">Juego</label>
-                            <select asp-for="SelectedCasinoGameID" asp-items="Model.Games" class="form-select"></select>
+                            <select asp-for="SelectedCasinoGameID" asp-items="Model.Games" class="form-select" required></select>
                             <span asp-validation-for="SelectedCasinoGameID" class="text-danger"></span>
                         </div>
                     </div>
@@ -59,7 +52,7 @@
                         <div class="form-group">
                             <label asp-for="SelectedEngineerID" class="control-label">Asignado a</label>
                             <select asp-for="SelectedEngineerID" asp-items="Model.Engineers"
-                                class="form-select"></select>
+                                class="form-select" required></select>
                             <span asp-validation-for="SelectedEngineerID" class="text-danger"></span>
                         </div>
                     </div>
